@@ -2,8 +2,10 @@
 
 core_dir="/home/deck/.local/share/Steam/steamapps/common/RetroArch/cores/"
 
-#### Make dolphin_libretro.info for solphin core in RA
+#### make the directory (if it does not exist already)
+mkdir -r "${core_dir}"
 
+#### Make dolphin_libretro.info for solphin core in RA
 tee -a "${core_dir}dolphin_libretro.info" > /dev/null <<EOT
 # Software Information
 display_name = "Nintendo - GameCube / Wii (Dolphin)"
