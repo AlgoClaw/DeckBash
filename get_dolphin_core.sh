@@ -1,6 +1,9 @@
 #!/bin/bash
 
-core_dir="/home/deck/.local/share/Steam/steamapps/common/RetroArch/cores/"
+RA_dir="/home/deck/.local/share/Steam/steamapps/common/RetroArch/"
+core_dir="${RA_dir}cores/"
+save_dir="${RA_dir}saves/"
+stat_dir="${RA_dir}states/"
 
 #### make the directory (if it does not exist already)
 mkdir -r "${core_dir}"
@@ -45,3 +48,6 @@ EOT
 curl https://buildbot.libretro.com/nightly/linux/x86_64/latest/dolphin_libretro.so.zip --create-dirs -o "${core_dir}dolphin_libretro.so.zip"
 unzip "${core_dir}dolphin_libretro.so.zip" -d "${core_dir}"
 rm -r "${core_dir}dolphin_libretro.so.zip"
+
+#### enable boot screen (might need to run Dolphin first)
+sed -i '/SkipIPL /c\SkipIPL = False' "${RA_dir}/saves/User/Config/Dolphin.ini"
