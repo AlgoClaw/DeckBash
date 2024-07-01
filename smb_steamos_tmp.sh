@@ -43,3 +43,7 @@ EOT
 sudo systemctl enable smb nmb
 sudo systemctl start smb nmb
 sudo systemctl restart smb nmb
+
+# Add Firewall Exception
+firewall-cmd --permanent --zone=public --add-service=samba
+firewall-cmd --reload
