@@ -8,6 +8,10 @@ sudo steamos-readonly disable
 # Install Samba
 sudo pacman -Sy --noconfirm samba --overwrite '*'
 
+# Add Firewall Exception
+firewall-cmd --permanent --zone=public --add-service=samba
+firewall-cmd --reload
+
 # Delete Existing smb.conf
 sudo rm -f "/etc/samba/smb.conf"
 
@@ -43,7 +47,3 @@ EOT
 sudo systemctl enable smb nmb
 sudo systemctl start smb nmb
 sudo systemctl restart smb nmb
-
-# Add Firewall Exception
-firewall-cmd --permanent --zone=public --add-service=samba
-firewall-cmd --reload
