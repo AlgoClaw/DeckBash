@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sudo rm /Scripts/smb_steamos_tmp.sh & wait
+sudo rm /home/deck/Scripts/smb_steamos_tmp.sh & wait
 
-sudo curl https://raw.githubusercontent.com/AlgoClaw/DeckBash/main/smb_steamos_tmp.sh --create-dirs -o /Scripts/smb_steamos_tmp.sh & wait
+sudo curl https://raw.githubusercontent.com/AlgoClaw/DeckBash/main/smb_steamos_tmp.sh --create-dirs -o /home/deck/Scripts/smb_steamos_tmp.sh & wait
 
-sudo bash /Scripts/smb_steamos_tmp.sh
+sudo bash /home/deck/Scripts/smb_steamos_tmp.sh
