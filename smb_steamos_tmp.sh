@@ -4,13 +4,13 @@
 sudo steamos-readonly disable
 
 # Install Samba
-sudo pacman -Syu & wait
-sudo pacman -Sy --noconfirm samba-client-libs --overwrite '*' & wait
-sudo pacman -Sy --noconfirm smbclient --overwrite '*' & wait
-sudo pacman -Sy --noconfirm samba --overwrite '*' & wait
+sudo pacman -Syu
+sudo pacman -Sy --noconfirm samba-client-libs --overwrite '*'
+sudo pacman -Sy --noconfirm smbclient --overwrite '*'
+sudo pacman -Sy --noconfirm samba --overwrite '*'
 
 # Fix Dependencies
-sudo ldconfig & wait
+sudo ldconfig
 
 # Add Firewall Exception
 sudo firewall-cmd --permanent --zone=public --add-service=samba
@@ -49,5 +49,5 @@ EOT
 
 # Enable, Start, Restart Services
 sudo systemctl enable smb nmb
-sudo systemctl start smb nmb
+#sudo systemctl start smb nmb
 sudo systemctl restart smb nmb
