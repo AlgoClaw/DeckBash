@@ -5,9 +5,9 @@ sudo steamos-readonly disable
 
 # Install Samba
 sudo pacman -Syu & wait
-sudo pacman -Sy --noconfirm samba-client-libs & wait
-sudo pacman -Sy --noconfirm smbclient & wait
-sudo pacman -Sy --noconfirm samba & wait
+sudo pacman -Sy --noconfirm samba-client-libs --overwrite '*' & wait
+sudo pacman -Sy --noconfirm smbclient --overwrite '*' & wait
+sudo pacman -Sy --noconfirm samba --overwrite '*' & wait
 
 # Fix Dependencies
 sudo ldconfig & wait
