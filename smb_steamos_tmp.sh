@@ -1,16 +1,20 @@
 #!/bin/bash
 
-# use via "sudo su"
-
 # Disable SteamOS Ready-Only
 sudo steamos-readonly disable
 
 # Install Samba
-sudo pacman -Sy --noconfirm samba --overwrite '*'
+sudo pacman -Syu & wait
+sudo pacman -Sy --noconfirm samba-client-libs & wait
+sudo pacman -Sy --noconfirm smbclient & wait
+sudo pacman -Sy --noconfirm samba & wait
+
+# Fix Dependencies
+sudo ldconfig & wait
 
 # Add Firewall Exception
-firewall-cmd --permanent --zone=public --add-service=samba
-firewall-cmd --reload
+sudo firewall-cmd --permanent --zone=public --add-service=samba
+sudo firewall-cmd --reload
 
 # Delete Existing smb.conf
 sudo rm -f "/etc/samba/smb.conf"
