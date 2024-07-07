@@ -28,8 +28,8 @@ sudo tee -a "/etc/samba/smb.conf" > /dev/null <<EOT
    usershare allow guests = YES
    store dos attributes = NO
 
-[root]
-   path = /
+[home]
+   path = /home
    public = YES
    read only = NO
    writeable = YES
@@ -49,5 +49,4 @@ EOT
 
 # Enable, Start, Restart Services
 sudo systemctl enable smb nmb
-#sudo systemctl start smb nmb
 sudo systemctl restart smb nmb
