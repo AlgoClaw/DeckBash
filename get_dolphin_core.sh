@@ -100,5 +100,5 @@ fi
 # Enable Boot Screen for EmuDeck's RA
 # might need to run Dolphin first
 if test -f "${ra_emudeck_dir_save}User/Config/Dolphin.ini"; then
-	sed -i '/SkipIPL /c\SkipIPL = False' "${ra_steam_dir_save}User/Config/Dolphin.ini"
+	sed -i '/SkipIPL /c\SkipIPL = False' "${ra_emudeck_dir_save}User/Config/Dolphin.ini"
 fi
