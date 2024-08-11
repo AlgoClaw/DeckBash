@@ -1,6 +1,7 @@
 #!/bin/bash
 
-##### Variables
+#####################
+##### Variables #####
 
 # Download location
 core_dl_loc="/home/deck/dolphin/"
@@ -29,8 +30,8 @@ ra_emudeck_dir_core="${ra_emudeck_dir}cores/"
 ra_steam_dir_save="${ra_steam_dir}saves/"
 ra_emudeck_dir_save="${ra_emudeck_dir}saves/"
 
-##############
-##############
+########################
+##### Dolphin Core #####
 
 # Download "dolphin_libretro.so" (if it does not exist):
 if test -f "${core_dl}"; then
@@ -60,8 +61,8 @@ else
 	cp -R "${core_dl}" "${ra_emudeck_dir_core}${core_dl_file}"
 fi
 
-##############
-##############
+#############################
+##### Dolphin Core Info #####
 
 # Download "dolphin_libretro.info" (if it does not exist):
 if test -f "${info_dl}"; then
@@ -88,8 +89,8 @@ else
 	cp -R "${info_dl}" "${ra_emudeck_dir_core}${info_dl_file}"
 fi
 
-##############
-##############
+###############################
+##### Dolphin Boot Screen #####
 
 # Enable Boot Screen for Steam's RA
 # might need to run Dolphin first
