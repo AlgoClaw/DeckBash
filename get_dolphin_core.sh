@@ -1,53 +1,104 @@
 #!/bin/bash
 
-RA_dir="/home/deck/.local/share/Steam/steamapps/common/RetroArch/"
-core_dir="${RA_dir}cores/"
-save_dir="${RA_dir}saves/"
-stat_dir="${RA_dir}states/"
+##### Variables
 
-#### make the directory (if it does not exist already)
-mkdir -r "${core_dir}"
+# Download location
+core_dl_loc="/home/deck/dolphin/"
+core_dl_file="dolphin_libretro.so"
+info_dl_file="dolphin_libretro.info"
+core_dl="${core_dl_loc}${core_dl_file}"
+info_dl="${core_dl_loc}${info_dl_file}"
 
-#### Make dolphin_libretro.info for solphin core in RA
-tee -a "${core_dir}dolphin_libretro.info" > /dev/null <<EOT
-# Software Information
-display_name = "Nintendo - GameCube / Wii (Dolphin)"
-authors = "Team Dolphin"
-supported_extensions = "gcm|iso|wbfs|ciso|gcz|elf|dol|dff|tgc|wad|rvz|m3u|wia"
-corename = "Dolphin"
-categories = "Emulator"
-license = "GPLv2+"
-permissions = ""
-display_version = "Git"
+# Core Download Link:
+core_host_loc="https://buildbot.libretro.com/nightly/linux/x86_64/latest/"
+core_host_file="dolphin_libretro.so.zip"
+core_host="${core_host_loc}${core_host_file}"
 
-# Hardware Information
-manufacturer = "Nintendo"
-systemname = "GameCube/Wii"
-systemid = "gamecube"
+# Info Download Link:
+info_host="https://raw.githubusercontent.com/AlgoClaw/DeckBash/main/dolphin_libretro.info"
 
-# Libretro Features
-database = "Nintendo - GameCube|Nintendo - Wii|Nintendo - Wii (Digital)"
-supports_no_game = "false"
-libretro_saves = "true"
-savestate = "true"
-savestate_features = "deterministic"
-cheats = "false"
-input_descriptors = "true"
-memory_descriptors = "false"
-core_options = "true"
-core_options_version = "1.0"
-load_subsystem = "false"
-hw_render = "true"
-required_hw_api = "Vulkan >= 1.0 | Direct3D >= 10.0 | OpenGL Core >= 3.3 | OpenGL ES >= 3.0"
-needs_fullpath = "true"
-disk_control = "false"
-is_experimental = "false"
-EOT
+# RetroArch Locations:
+ra_steam_dir="/home/deck/.local/share/Steam/steamapps/common/RetroArch/"
+ra_emudeck_dir="/home/deck/.var/app/org.libretro.RetroArch/config/retroarch/"
 
-#### get dolphin core
-curl https://buildbot.libretro.com/nightly/linux/x86_64/latest/dolphin_libretro.so.zip --create-dirs -o "${core_dir}dolphin_libretro.so.zip"
-unzip "${core_dir}dolphin_libretro.so.zip" -d "${core_dir}"
-rm -r "${core_dir}dolphin_libretro.so.zip"
+# RetroArch Core Locations:
+ra_steam_dir_core="${ra_steam_dir}cores/"
+ra_emudeck_dir_core="${ra_emudeck_dir}cores/"
 
-#### enable boot screen (might need to run Dolphin first)
-sed -i '/SkipIPL /c\SkipIPL = False' "${save_dir}User/Config/Dolphin.ini"
+# RetroArch Saves Locations:
+ra_steam_dir_save="${ra_steam_dir}saves/"
+ra_emudeck_dir_save="${ra_emudeck_dir}saves/"
+
+##############
+##############
+
+# Download "dolphin_libretro.so" (if it does not exist):
+if test -f "${core_dl}"; then
+	true # exists
+else
+	# does not exist
+	curl "${core_host}" --create-dirs -o "${core_dl_loc}${core_host_file}"
+	unzip "${core_dl_loc}${core_host_file}" -d "${core_dl_loc}"
+	rm -r "${core_dl_loc}${core_host_file}"
+fi
+
+# Copy "dolphin_libretro.so" to Steam's RA (if it does not exist):
+if test -f "${ra_steam_dir_core}${core_dl_file}"; then
+	true # exists
+else
+	# does not exist
+	mkdir -p "${ra_steam_dir_core}"
+	cp -R "${core_dl}" "${ra_steam_dir_core}${core_dl_file}"
+fi
+
+# Copy "dolphin_libretro.so" to EmuDeck's RA (if it does not exist):
+if test -f "${ra_emudeck_dir_core}${core_dl_file}"; then
+	true # exists
+else
+	# does not exist
+	mkdir -p "${ra_emudeck_dir_core}"
+	cp -R "${core_dl}" "${ra_emudeck_dir_core}${core_dl_file}"
+fi
+
+##############
+##############
+
+# Download "dolphin_libretro.info" (if it does not exist):
+if test -f "${info_dl}"; then
+	true # exists
+else
+	curl "${info_host}" --create-dirs -o "${info_dl}"
+fi
+
+# Copy "dolphin_libretro.info" file to Steam's RA (if it does not exist):
+if test -f "${ra_steam_dir_core}${info_dl_file}"; then
+	true # exists
+else
+	# does not exist
+	mkdir -p "${ra_steam_dir_core}"
+	cp -R "${info_dl}" "${ra_steam_dir_core}${info_dl_file}"
+fi
+
+# Copy "dolphin_libretro.info" file to EmuDeck's RA (if it does not exist):
+if test -f "${ra_emudeck_dir_core}${info_dl_file}"; then
+	true # exists
+else
+	# does not exist
+	mkdir -p "${ra_emudeck_dir_core}"
+	cp -R "${info_dl}" "${ra_emudeck_dir_core}${info_dl_file}"
+fi
+
+##############
+##############
+
+# Enable Boot Screen for Steam's RA
+# might need to run Dolphin first
+if test -f "${ra_steam_dir_save}User/Config/Dolphin.ini"; then
+	sed -i '/SkipIPL /c\SkipIPL = False' "${ra_steam_dir_save}User/Config/Dolphin.ini"
+fi
+
+# Enable Boot Screen for EmuDeck's RA
+# might need to run Dolphin first
+if test -f "${ra_emudeck_dir_save}User/Config/Dolphin.ini"; then
+	sed -i '/SkipIPL /c\SkipIPL = False' "${ra_steam_dir_save}User/Config/Dolphin.ini"
+fi
