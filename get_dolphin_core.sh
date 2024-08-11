@@ -50,4 +50,4 @@ unzip "${core_dir}dolphin_libretro.so.zip" -d "${core_dir}"
 rm -r "${core_dir}dolphin_libretro.so.zip"
 
 #### enable boot screen (might need to run Dolphin first)
-sed -i '/SkipIPL /c\SkipIPL = False' "${RA_dir}/saves/User/Config/Dolphin.ini"
+sed -i '/SkipIPL /c\SkipIPL = False' "${save_dir}User/Config/Dolphin.ini"
